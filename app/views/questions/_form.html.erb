@@ -1,7 +1,7 @@
-<%= form_with(model: @question, model: [@question.quiz, @question]) do |form| %>
-  <% if @question.errors.any? %>
+<%= form_with(model: [question.quiz, question]) do |form| %>
+  <% if question.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this quiz from being saved:</h2>
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
 
       <ul>
         <% question.errors.each do |error| %>
@@ -10,13 +10,13 @@
       </ul>
     </div>
   <% end %>
-  
+
   <div>
     <%= form.label :question_text %>
     <%= form.text_field :question_text %>
   </div>
-  
+
   <div class="mt-4">
-   <%= form.submit %>
+    <%= form.submit %>
   </div>
-  <% end %>
+<% end %>

@@ -1,3 +1,6 @@
+<h1><%= @title %></h1>
+<p><%= @description %></p>
+
 <div class="overflow-x-auto rounded-lg border border-gray-200">
   <table id="quizzes" class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
     <thead class="text-left">
@@ -13,11 +16,5 @@
     </tbody>
   </table>
 </div>
-
-<p style="color: green"><%= notice %></p>
-
-<h1>Quizzes</h1>
-
-<div id="quizzes">
 
 <%= link_to "New quiz", new_quiz_path, class: btn_class %>
