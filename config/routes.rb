@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :quizzes do
     resources :questions, shallow: true
 
+
     get 'continue', on: :collection
     get 'completed', on: :collection
   end
