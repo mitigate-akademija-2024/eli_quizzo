@@ -10,8 +10,10 @@ class QuizzesController < ApplicationController
   end
 
   def start
+    @quiz = Quiz.find(params[:quiz_id])
     @title = 'Start some quiz'
     @description = 'lorem ipsum'
+
 
     respond_to do |format|
       format.html
@@ -32,6 +34,28 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/1/edit
   def edit
+  end
+
+  def take
+    right_answers = 0
+    questions = params[:questions]
+
+    questions.keys.each do |question_id|
+      answer_id = questions[question_id]
+      question = Question.find question_id
+      right_answer_id = question.answers.where(correct: true).first.id
+      
+      if answer_id == right_answer_id
+        right_answers = right_answers + 1
+      end
+    end
+
+    redirect_to result_quizzes_path, right_answers:
+  end
+
+
+  def result 
+    @right_answer = params[:right_answers]
   end
 
   # POST /quizzes or /quizzes.json

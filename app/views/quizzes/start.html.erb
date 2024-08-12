@@ -1,2 +1,17 @@
-<h1><%= @title %></h1>
-<p><%= @description %></p>
+
+<%= form_with url: quiz_take_path, remote: false do |form| %>
+ <ul>
+    <% @quiz.questions.each do |question| %>
+        <li><%= question.question_text %></li>
+        <% question.answers.each do |answer| %>
+        <li><%= answer.answer_text %></li>
+        <%= radio_button_tag "questions[#{question.id}]", answer.id %>
+        <% end %>
+    <% end %>
+
+    </ul>
+     <div class="mt-4">
+    <%= form.submit %>
+  </div>
+<% end %>
+

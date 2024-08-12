@@ -5,10 +5,13 @@ Rails.application.routes.draw do
 
   resources :quizzes do
     resources :questions, shallow: true
-
+    
 
     get 'continue', on: :collection
     get 'completed', on: :collection
+    get 'result', on: :collection
+    get 'start'
+    post 'take'
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
