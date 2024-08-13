@@ -1,3 +1,4 @@
+<!--app/views/questions/_form.html.erb-->
 <%= form_with(model: question.persisted? ? question : [question.quiz, question], data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %>
   <% if question.errors.any? %>
     <div style="color: red">

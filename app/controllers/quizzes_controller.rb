@@ -1,5 +1,10 @@
+# app/controllers/quizzes_controller.rb
 class QuizzesController < ApplicationController
-  before_action :set_quiz, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :take, :result]
+  # other actions...
+
+
+before_action :set_quiz, only: %i[ show edit update destroy ]
 
   # GET /quizzes or /quizzes.json
   def index
@@ -101,13 +106,13 @@ class QuizzesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_quiz
-      @quiz = Quiz.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_quiz
+    @quiz = Quiz.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def quiz_params
-      params.require(:quiz).permit(:title, :description)
-    end
+  # Only allow a list of trusted parameters through.
+  def quiz_params
+    params.require(:quiz).permit(:title, :description)
+  end
 end

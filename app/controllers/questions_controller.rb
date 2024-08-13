@@ -1,3 +1,4 @@
+# app/controllers/questions_controller.rb
 class QuestionsController < ApplicationController
     before_action :set_quiz, only: [:new, :create]
     before_action :set_question, only: [:destroy, :edit, :update]

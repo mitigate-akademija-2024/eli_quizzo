@@ -1,3 +1,4 @@
+<!--app/views/layouts/application.html.erb-->
 <!DOCTYPE html>
 <html>
   <head>
@@ -15,3 +16,10 @@
     <%= yield %>
   </body>
 </html>
+
+<% if user_signed_in? %>
+  Logged in as <%= current_user.username %> | <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+<% else %>
+  <%= link_to 'Sign Up', new_user_registration_path %> or
+  <%= link_to 'Log In', new_user_session_path %>
+<% end %>

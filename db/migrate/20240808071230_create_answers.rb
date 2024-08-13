@@ -1,3 +1,4 @@
+# db/migrate/20240808071230_create_answers.rb
 class CreateAnswers < ActiveRecord::Migration[7.1]
   def change
     create_table :answers do |t|
