@@ -3,8 +3,7 @@ class QuizzesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :take, :result]
   # other actions...
 
-
-before_action :set_quiz, only: %i[ show edit update destroy ]
+  before_action :set_quiz, only: %i[ show edit update destroy ]
 
   # GET /quizzes or /quizzes.json
   def index
@@ -46,6 +45,15 @@ before_action :set_quiz, only: %i[ show edit update destroy ]
     total_points = 0
     answers = params[:answers]
     points = params[:points]
+    @quiz = Quiz.find(params[:quiz_id])
+    answers = params[:answers] || {}  # Handle case when no answers are submitted
+    
+    unanswered_questions = []
+    @quiz.questions.each do |question|
+      if answers[question.id.to_s].blank?
+        unanswered_questions << question
+      end
+    end
 
     answers.keys.each do |question_id|
       answer_id = answers[question_id].to_i
@@ -56,6 +64,12 @@ before_action :set_quiz, only: %i[ show edit update destroy ]
         right_answers = right_answers + 1
         total_points = total_points + question.points
       end
+    end
+
+    if unanswered_questions.any?
+      # If there are unanswered questions, show a warning message
+      flash[:alert] = "Please answer all questions before submitting."
+      redirect_to start_quiz_path(@quiz) and return
     end
 
     redirect_to result_quizzes_path(right_answers: right_answers, total_points: total_points)
