@@ -1,17 +1,17 @@
-<!--app/views/quizzes/start.html.erb-->
-<%= form_with url: quiz_take_path, remote: false do |form| %>
- <ul>
+<!-- app/views/quizzes/start.html.erb -->
+<%= form_with url: quiz_take_path(@quiz), method: :post, local: true do |form| %>
+  <ul>
     <% @quiz.questions.each do |question| %>
-        <li><%= question.question_text %></li>
-        <% question.answers.each do |answer| %>
-        <li><%= answer.answer_text %></li>
-        <%= radio_button_tag "questions[#{question.id}]", answer.id %>
-        <% end %>
+      <li><%= question.question_text %></li>
+      <% question.answers.each do |answer| %>
+        <li>
+          <%= radio_button_tag "answers[#{question.id}]", answer.id %>
+          <%= label_tag "answers_#{answer.id}", answer.answer_text %>
+        </li>
+      <% end %>
     <% end %>
-
-    </ul>
-     <div class="mt-4">
-    <%= form.submit %>
+  </ul>
+  <div class="mt-4">
+    <%= form.submit "Submit Answers" %>
   </div>
 <% end %>
-

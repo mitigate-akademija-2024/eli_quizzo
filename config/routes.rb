@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get "/start_quiz", to: "quizzes#start"
 
   resources :quizzes do
+     post 'submit', on: :member
     resources :questions, shallow: true
     
 

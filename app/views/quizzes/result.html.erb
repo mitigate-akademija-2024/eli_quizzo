@@ -1,2 +1,4 @@
 <!--app/views/quizzes/result.html.erb-->
-<h1>Results</h1>
+<h1>Quiz Results</h1>
+<p>You answered <%= params[:right_answers] %> questions correctly!</p>
+<%= link_to 'Back to Quizzes', quizzes_path %>

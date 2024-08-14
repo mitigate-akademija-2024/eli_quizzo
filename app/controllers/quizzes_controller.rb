@@ -43,10 +43,10 @@ before_action :set_quiz, only: %i[ show edit update destroy ]
 
   def take
     right_answers = 0
-    questions = params[:questions]
+    answers = params[:answers]
 
-    questions.keys.each do |question_id|
-      answer_id = questions[question_id]
+    answers.keys.each do |question_id|
+      answer_id = answers[question_id].to_i
       question = Question.find question_id
       right_answer_id = question.answers.where(correct: true).first.id
       
@@ -55,7 +55,7 @@ before_action :set_quiz, only: %i[ show edit update destroy ]
       end
     end
 
-    redirect_to result_quizzes_path, right_answers:
+    redirect_to result_quizzes_path(right_answers: right_answers)
   end
 
 
