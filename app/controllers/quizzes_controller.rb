@@ -1,9 +1,10 @@
 # app/controllers/quizzes_controller.rb
 class QuizzesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :take, :result]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   # other actions...
 
-  before_action :set_quiz, only: %i[ show edit update destroy ]
+  before_action :set_quiz, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   # GET /quizzes or /quizzes.json
   def index
@@ -115,18 +116,28 @@ class QuizzesController < ApplicationController
 
   # DELETE /quizzes/1 or /quizzes/1.json
   def destroy
-    @quiz.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to quizzes_url, notice: "Quiz was successfully destroyed." }
-      format.json { head :no_content }
+    if @quiz.user == current_user
+      @quiz.destroy!
+      respond_to do |format|
+        format.html { redirect_to quizzes_url, notice: "Quiz was successfully destroyed." }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to quizzes_url, alert: 'You are not authorized to delete this quiz.'
     end
   end
 
   private
+  
   # Use callbacks to share common setup or constraints between actions.
   def set_quiz
     @quiz = Quiz.find(params[:id])
+  end
+
+  def authorize_user!
+    unless @quiz.user == current_user
+      redirect_to quizzes_path, alert: 'You are not authorized to edit or delete this quiz.'
+    end
   end
 
   # Only allow a list of trusted parameters through.

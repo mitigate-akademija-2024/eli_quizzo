@@ -1,5 +1,8 @@
 class Quiz < ApplicationRecord
   validates :title, presence: true, uniqueness: true
+  validates :description, presence: true
+  
+  belongs_to :user
 
   before_validation :normalize_title
 

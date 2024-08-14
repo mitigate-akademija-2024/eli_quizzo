@@ -1,7 +1,9 @@
 # app/controllers/questions_controller.rb
 class QuestionsController < ApplicationController
+    before_action :authenticate_user!
     before_action :set_quiz, only: [:new, :create]
     before_action :set_question, only: [:destroy, :edit, :update]
+    before_action :authorize_user!, only: [:edit, :update, :destroy]
 
     def index
     end
@@ -10,6 +12,11 @@ class QuestionsController < ApplicationController
     end
 
     def update
+      if @question.update(question_params)
+        redirect_to quiz_url(@question.quiz), notice: "Question was successfully updated."
+      else
+        render :edit, status: :unprocessable_entity 
+      end
     end
   
     def create
@@ -48,15 +55,17 @@ class QuestionsController < ApplicationController
     def add_answer
       @question = @quiz.questions.new(question_params)
       @question.answers.new
-       
       render :new
     end
     
     # DELETE /questions/1
     def destroy
-      @question.destroy!
-
-      redirect_to quiz_path(@question.quiz), notice: "Question was successfully destroyed."
+      if @question.quiz.user == current_user
+        @question.destroy!
+        redirect_to quiz_path(@question.quiz), notice: "Question was successfully destroyed."
+      else
+        redirect_to quiz_path(@question.quiz), notice: "Question was successfully destroyed."
+      end
     end
     
     private
@@ -70,6 +79,6 @@ class QuestionsController < ApplicationController
     end
   
     def question_params
-      params.require(:question).permit(:question_text, :points, answers_attributes: [:id, :answer_text, :correct, :destroy])
+      params.require(:question).permit(:question_text, :points, answers_attributes: [:id, :answer_text, :correct, :_destroy])
     end
   end
