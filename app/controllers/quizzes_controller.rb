@@ -43,24 +43,28 @@ before_action :set_quiz, only: %i[ show edit update destroy ]
 
   def take
     right_answers = 0
+    total_points = 0
     answers = params[:answers]
+    points = params[:points]
 
     answers.keys.each do |question_id|
       answer_id = answers[question_id].to_i
       question = Question.find question_id
       right_answer_id = question.answers.where(correct: true).first.id
-      
+      # question.points
       if answer_id == right_answer_id
         right_answers = right_answers + 1
+        total_points = total_points + question.points
       end
     end
 
-    redirect_to result_quizzes_path(right_answers: right_answers)
+    redirect_to result_quizzes_path(right_answers: right_answers, total_points: total_points)
   end
 
 
   def result 
     @right_answer = params[:right_answers]
+    @total_points = params[:total_points]
   end
 
   # POST /quizzes or /quizzes.json

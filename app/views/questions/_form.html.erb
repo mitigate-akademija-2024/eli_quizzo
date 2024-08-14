@@ -22,9 +22,13 @@
     <%= form.label :question_text %>
     <%= form.text_field :question_text %>
 
+    <%= form.label :points %>
+    <%= form.text_field :points %>
+
     <%= form.fields_for :answers do |ff| %>
       <%= render 'answer_form', form: ff %>
     <% end %>
+
 
     <!-- Inserted elements will be injected before that target. -->
     <div data-nested-form-target="target"></div>
