@@ -10,14 +10,12 @@ class QuizzesController < ApplicationController
   def index
     @quizzes = Quiz.all
 
-    @title = 'These are the quizzes'
-    @description = 'lorem ipsum'
+    @title = 'These are the quizzes:'
   end
 
   def start
     @quiz = Quiz.find(params[:quiz_id])
     @title = 'Start some quiz'
-    @description = 'lorem ipsum'
 
 
     respond_to do |format|
