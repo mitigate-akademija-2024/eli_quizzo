@@ -2,4 +2,4 @@
 <h1>Quiz Results:</h1>
 <p>You answered <%= params[:right_answers] %> questions correctly!</p>
 <p>You earned <%= params[:total_points] %> points!</p>
-<%= link_to 'Back to Quizzes', quizzes_path %>
+<%= link_to 'Back to Quizzes', quizzes_path, class: 'inline-block rounded border border-pink-300 bg-pink-400 px-4 py-2 text-xs font-medium text-white hover:bg-transparent hover:text-pink-400 focus:outline-none focus:ring active:text-pink-400'%>
